@@ -8,15 +8,11 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +32,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     AppBarLayout mAppBar;
     @BindView(R.id.fl_content)
     CoordinatorLayout mFlContent;
-    @BindView(R.id.iv_content)
-    ImageView mIvContent;
     @BindView(R.id.sv_content)
     NestedScrollView mSvContent;
 
@@ -102,7 +96,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     @Override
     public void showContent(NewsContent newsContent) {
-        Glide.with(this).load(newsContent.getImage()).centerCrop().into(mIvContent);
         mWvNewsContent.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {

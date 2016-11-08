@@ -26,6 +26,7 @@ import rx.schedulers.Schedulers;
 public class RequestManger {
 
     private ApiService mApiService;
+    private static final String TAG = "RequestManger";
 
     private RequestManger() {
         OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
@@ -93,12 +94,13 @@ public class RequestManger {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(newsContent -> {
-                    int begin = newsContent.getBody().indexOf("<div class=\"img-place-holder\"></div>");
-                    int last = begin + 39;
+                    int begin = newsContent.getBody().indexOf("holder\"></div>") + 8;
+
                     String first = newsContent.getBody().substring(0, begin);
-                    String second = newsContent.getBody().substring(last,
+                    String mid = "<img src=\"" + newsContent.getImage() +" \"style=\"width: 100%;height: 100%;\">";
+                    String second = newsContent.getBody().substring(begin,
                             newsContent.getBody().length() - begin);
-                    newsContent.setBody(first + second);
+                    newsContent.setBody(first + mid + second);
                     newsContent.setBody("<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n" +
                             "1\n" + newsContent.getBody());
                     return newsContent;

@@ -16,9 +16,9 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_content"
-            app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
@@ -36,15 +36,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
-
-            <ImageView
-                android:id="@+id/iv_content"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="30dp"/>
 
             <WebView
                 android:id="@+id/wv_news_content"
