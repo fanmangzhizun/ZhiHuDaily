@@ -21,7 +21,8 @@ import com.bumptech.glide.Glide;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zengmingyang.mobile.zhihudaily.R;
-import cn.zengmingyang.mobile.zhihudaily.data.model.NewsContent;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsContent;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsExtra;
 import cn.zengmingyang.mobile.zhihudaily.news.NewsActivity;
 
 public class ContentActivity extends AppCompatActivity implements ContentContract.View {
@@ -42,13 +43,16 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     ImageView mIvNewsContent;
     @BindView(R.id.tv_news_content_title)
     TextView mTvNewsContentTitle;
+    @BindView(R.id.tv_content_star)
+    TextView mTvContentStar;
+    @BindView(R.id.tv_content_comment)
+    TextView mTvContentCommit;
 
     private ContentContract.Presenter mPresenter;
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getContent(getIntent().getIntExtra(NewsActivity.INTENT_FLAG, 0));
         mPresenter.start();
     }
 
@@ -58,6 +62,9 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         setContentView(R.layout.activity_content);
         ButterKnife.bind(this);
         init();
+        int id = (getIntent().getIntExtra(NewsActivity.INTENT_FLAG, 0));
+        mPresenter.getContent(id);
+        mPresenter.getExtra(id);
     }
 
     @Override
@@ -75,6 +82,12 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }
+    }
+
+    @Override
+    public void showExtra(NewsExtra newsExtra) {
+        mTvContentCommit.setText(String.valueOf(newsExtra.getComments()));
+        mTvContentStar.setText(String.valueOf(newsExtra.getPopularity()));
     }
 
     private void init() {
@@ -98,6 +111,7 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     @Override
     public void showError(Throwable error) {
         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
+        error.printStackTrace();
     }
 
     @Override

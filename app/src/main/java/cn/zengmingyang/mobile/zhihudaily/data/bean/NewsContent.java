@@ -1,4 +1,4 @@
-package cn.zengmingyang.mobile.zhihudaily.data.model;
+package cn.zengmingyang.mobile.zhihudaily.data.bean;
 
 import java.util.List;
 

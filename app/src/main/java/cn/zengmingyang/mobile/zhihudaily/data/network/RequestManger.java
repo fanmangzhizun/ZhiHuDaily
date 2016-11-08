@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import cn.zengmingyang.mobile.zhihudaily.data.model.BeforeNews;
-import cn.zengmingyang.mobile.zhihudaily.data.model.News;
-import cn.zengmingyang.mobile.zhihudaily.data.model.NewsContent;
-import cn.zengmingyang.mobile.zhihudaily.data.model.StartImageWrapper;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.BeforeNews;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.News;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsComment;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsContent;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsExtra;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.StartImageWrapper;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -94,7 +96,7 @@ public class RequestManger {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(newsContent -> {
-                    int begin = newsContent.getBody().indexOf("<div class=\"img-place-holder") ;
+                    int begin = newsContent.getBody().indexOf("<div class=\"img-place-holder");
                     int last = newsContent.getBody().indexOf("<div class=\"question\">");
                     String first = newsContent.getBody().substring(0, begin);
                     String second = newsContent.getBody().substring(last,
@@ -106,5 +108,20 @@ public class RequestManger {
                     return newsContent;
                 })
                 .subscribe(contentSubscriber);
+    }
+
+    public void getNewsExtra(Subscriber<NewsExtra> newsExtraSubscriber, int id) {
+        mApiService
+                .getNewsExtra(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(newsExtraSubscriber);
+    }
+
+    public void getNewsComments(Subscriber<NewsComment> newsCommentSubscriber, int id) {
+        Observable.merge(mApiService.getNewsLongComments(id), mApiService.getNewsShortComments(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(newsCommentSubscriber);
     }
 }

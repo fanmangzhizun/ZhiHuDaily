@@ -1,10 +1,12 @@
 package cn.zengmingyang.mobile.zhihudaily.data.network;
 
 
-import cn.zengmingyang.mobile.zhihudaily.data.model.BeforeNews;
-import cn.zengmingyang.mobile.zhihudaily.data.model.News;
-import cn.zengmingyang.mobile.zhihudaily.data.model.NewsContent;
-import cn.zengmingyang.mobile.zhihudaily.data.model.StartImageWrapper;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.BeforeNews;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.News;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsComment;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsContent;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsExtra;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.StartImageWrapper;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -27,5 +29,14 @@ interface ApiService {
 
     @GET("news/{id}")
     Observable<NewsContent> getNewsContent(@Path("id") int id);
+
+    @GET("story-extra/{id}")
+    Observable<NewsExtra> getNewsExtra(@Path("id") int id);
+
+    @GET("story/{id}/long-comments")
+    Observable<NewsComment> getNewsLongComments(@Path("id") int id);
+
+    @GET("story/{id}/short-comments")
+    Observable<NewsComment> getNewsShortComments(@Path("id") int id);
 
 }

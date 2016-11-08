@@ -1,4 +1,4 @@
-package cn.zengmingyang.mobile.zhihudaily.data.model;
+package cn.zengmingyang.mobile.zhihudaily.data.bean;
 
 /**
  * Created by simonla on 2016/11/5.

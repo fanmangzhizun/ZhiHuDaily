@@ -18,7 +18,7 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zengmingyang.mobile.zhihudaily.R;
-import cn.zengmingyang.mobile.zhihudaily.data.model.StartImageWrapper;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.StartImageWrapper;
 import cn.zengmingyang.mobile.zhihudaily.news.NewsActivity;
 import cn.zengmingyang.mobile.zhihudaily.utils.FastBlurUtil;
 
@@ -62,14 +62,14 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     @Override
     public void success(StartImageWrapper startImageWrapper) {
 
-        Glide.with(this).load(startImageWrapper.getImg()).asBitmap().centerCrop()
+        Glide.with(this).load(startImageWrapper.getImg()).asBitmap()
                 .into(new ImageViewTarget<Bitmap>(mIvStartImage) {
             @Override
             protected void setResource(Bitmap resource) {
                 mIvStartImage.setImageBitmap(resource);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     mActivitySplash.setBackground(new BitmapDrawable(getResources(),
-                            FastBlurUtil.doBlur(resource, 50, false)));
+                            FastBlurUtil.doBlur(resource, 90, false)));
                 }
             }
         });

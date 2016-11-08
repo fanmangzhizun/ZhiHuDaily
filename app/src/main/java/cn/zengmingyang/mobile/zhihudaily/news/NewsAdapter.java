@@ -19,7 +19,7 @@ import com.jude.rollviewpager.hintview.ColorPointHintView;
 import java.util.List;
 
 import cn.zengmingyang.mobile.zhihudaily.R;
-import cn.zengmingyang.mobile.zhihudaily.data.model.News;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.News;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 

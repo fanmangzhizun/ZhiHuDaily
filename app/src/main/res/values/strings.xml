@@ -6,5 +6,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title">知乎日报</string>
-    <string name="by_simonla">by simonla</string>
+    <string name="by_simonla">developed by simonla</string>
+    <string name="bottom">bottom</string>
+    <string name="_34">34</string>
 </resources>

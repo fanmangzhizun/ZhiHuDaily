@@ -3,7 +3,7 @@ package cn.zengmingyang.mobile.zhihudaily.news;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.zengmingyang.mobile.zhihudaily.data.model.News;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.News;
 import cn.zengmingyang.mobile.zhihudaily.data.network.RequestManger;
 import cn.zengmingyang.mobile.zhihudaily.utils.TimeUtils;
 import rx.Subscriber;

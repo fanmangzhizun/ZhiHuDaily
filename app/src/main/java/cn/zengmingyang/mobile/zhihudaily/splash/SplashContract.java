@@ -2,7 +2,7 @@ package cn.zengmingyang.mobile.zhihudaily.splash;
 
 import cn.zengmingyang.mobile.zhihudaily.BasePresenter;
 import cn.zengmingyang.mobile.zhihudaily.BaseView;
-import cn.zengmingyang.mobile.zhihudaily.data.model.StartImageWrapper;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.StartImageWrapper;
 
 /**
  * Created by simonla on 2016/11/5.

@@ -4,7 +4,7 @@ import java.util.List;
 
 import cn.zengmingyang.mobile.zhihudaily.BasePresenter;
 import cn.zengmingyang.mobile.zhihudaily.BaseView;
-import cn.zengmingyang.mobile.zhihudaily.data.model.News;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.News;
 
 /**
  * Created by simonla on 2016/11/5.

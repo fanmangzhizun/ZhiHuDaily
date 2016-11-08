@@ -1,6 +1,6 @@
 package cn.zengmingyang.mobile.zhihudaily.splash;
 
-import cn.zengmingyang.mobile.zhihudaily.data.model.StartImageWrapper;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.StartImageWrapper;
 import cn.zengmingyang.mobile.zhihudaily.data.network.RequestManger;
 import rx.Subscriber;
 

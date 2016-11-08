@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.zengmingyang.mobile.zhihudaily.R;
 import cn.zengmingyang.mobile.zhihudaily.content.ContentActivity;
-import cn.zengmingyang.mobile.zhihudaily.data.model.News;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.News;
 
 import static cn.zengmingyang.mobile.zhihudaily.R.menu.main;
 
