@@ -12,7 +12,11 @@ import android.view.KeyEvent;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +38,10 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     CoordinatorLayout mFlContent;
     @BindView(R.id.sv_content)
     NestedScrollView mSvContent;
+    @BindView(R.id.iv_news_content)
+    ImageView mIvNewsContent;
+    @BindView(R.id.tv_news_content_title)
+    TextView mTvNewsContentTitle;
 
     private ContentContract.Presenter mPresenter;
 
@@ -55,7 +63,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     @Override
     public void initToolbar(NewsContent content) {
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle(content.getTitle());
         mToolbar.setNavigationOnClickListener(v -> {
             if (mWvNewsContent.canGoBack()) {
                 mWvNewsContent.goBack();
@@ -67,7 +74,6 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setTitle(content.getTitle());
         }
     }
 
@@ -96,6 +102,8 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
 
     @Override
     public void showContent(NewsContent newsContent) {
+        Glide.with(this).load(newsContent.getImage()).centerCrop().into(mIvNewsContent);
+        mTvNewsContentTitle.setText(newsContent.getTitle());
         mWvNewsContent.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {

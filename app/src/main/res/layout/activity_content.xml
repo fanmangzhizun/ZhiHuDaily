@@ -18,7 +18,7 @@
             android:id="@+id/toolbar_content"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_behavior=".ToolbarBehavior"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
@@ -36,6 +36,28 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <ImageView
+                    android:id="@+id/iv_news_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/tv_news_content_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:layout_margin="16dp"
+                    android:maxLines="2"
+                    android:textColor="@color/material_color_white"
+                    android:textSize="19sp"/>
+
+            </FrameLayout>
 
             <WebView
                 android:id="@+id/wv_news_content"

@@ -94,15 +94,15 @@ public class RequestManger {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(newsContent -> {
-                    int begin = newsContent.getBody().indexOf("holder\"></div>") + 8;
-
+                    int begin = newsContent.getBody().indexOf("<div class=\"img-place-holder") ;
+                    int last = newsContent.getBody().indexOf("<div class=\"question\">");
                     String first = newsContent.getBody().substring(0, begin);
-                    String mid = "<img src=\"" + newsContent.getImage() +" \"style=\"width: 100%;height: 100%;\">";
-                    String second = newsContent.getBody().substring(begin,
-                            newsContent.getBody().length() - begin);
-                    newsContent.setBody(first + mid + second);
+                    String second = newsContent.getBody().substring(last,
+                            newsContent.getBody().length() - last);
+                    newsContent.setBody(first + second);
                     newsContent.setBody("<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n" +
-                            "1\n" + newsContent.getBody());
+                            "\n" + newsContent.getBody());
+
                     return newsContent;
                 })
                 .subscribe(contentSubscriber);
