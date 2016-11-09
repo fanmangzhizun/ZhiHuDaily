@@ -165,7 +165,8 @@ public class NewsActivity extends AppCompatActivity
     }
 
     @Override
-    public void showList(List<News.StoriesBean> list, List<News.TopStoriesBean> topStoriesBeanList) {
+    public void showList(List<News.StoriesBean> list,
+                         List<News.TopStoriesBean> topStoriesBeanList) {
         mNewsAdapter = new NewsAdapter(list, this, topStoriesBeanList);
         mRvNewsList.setAdapter(mNewsAdapter);
         mSrlNewsList.setRefreshing(false);

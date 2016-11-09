@@ -119,13 +119,6 @@ public class RequestManger {
     }
 
     public void getNewsComments(Subscriber<NewsComment> newsCommentSubscriber, int id) {
-       /* Observable<NewsComment> longComments = mApiService.getNewsLongComments(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-        Observable<NewsComment> shortComments = mApiService.getNewsShortComments(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-        Observable.merge(longComments, shortComments).subscribe(newsCommentSubscriber);*/
         mApiService.getNewsLongComments(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

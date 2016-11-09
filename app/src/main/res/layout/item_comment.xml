@@ -4,6 +4,10 @@
 
     <data>
 
+        <import
+            alias="timeUtils"
+            type="cn.zengmingyang.mobile.zhihudaily.utils.TimeUtils"/>
+
         <variable
             name="comment"
             type="cn.zengmingyang.mobile.zhihudaily.data.bean.NewsComment.CommentsBean"/>
@@ -34,27 +38,28 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="@{comment.author}"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="6dp"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
+                android:text="@{comment.author}"
                 android:textColor="@color/material_color_black"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
             <TextView
-                android:text="@{comment.content}"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:text="@{comment.content}"
                 android:textColor="@color/material_color_black"/>
 
             <TextView
+                android:text="@{timeUtils.timeStampToStr(comment.time)}"
                 android:id="@+id/tv_data"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -62,9 +67,9 @@
                 android:gravity="center_vertical"/>
 
             <View
-                android:background="@color/material_color_blue_gray_100"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"/>
+                android:layout_height="0.5dp"
+                android:background="@color/material_color_blue_gray_100"/>
 
         </LinearLayout>
 

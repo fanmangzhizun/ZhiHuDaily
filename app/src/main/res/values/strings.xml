@@ -9,4 +9,6 @@
     <string name="by_simonla">developed by simonla</string>
     <string name="bottom">bottom</string>
     <string name="_34">34</string>
+    <string name="news_extra">%1$s点赞 · %2$s评论</string>
+    <string name="loading">加载中…</string>
 </resources>

@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/fl_banner"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/iv_item_banner"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:id="@+id/tv_item_banner"
-        android:layout_margin="16dp"
-        android:maxLines="2"
-        android:layout_gravity="bottom|center"
-        android:textColor="@color/material_color_white"
-        android:textSize="19sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</FrameLayout>
+    <data>
+
+        <variable
+            name="top"
+            type="cn.zengmingyang.mobile.zhihudaily.data.bean.News.TopStoriesBean"/>
+    </data>
+
+    <FrameLayout
+        android:id="@+id/fl_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_item_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_item_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="16dp"
+            android:maxLines="2"
+            android:text="@{top.title}"
+            android:textColor="@color/material_color_white"
+            android:textSize="19sp"/>
+
+    </FrameLayout>
+</layout>

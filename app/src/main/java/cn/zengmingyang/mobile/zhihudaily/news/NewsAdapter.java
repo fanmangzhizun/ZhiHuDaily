@@ -1,15 +1,12 @@
 package cn.zengmingyang.mobile.zhihudaily.news;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jude.rollviewpager.RollPagerView;
@@ -20,7 +17,15 @@ import java.util.List;
 
 import cn.zengmingyang.mobile.zhihudaily.R;
 import cn.zengmingyang.mobile.zhihudaily.data.bean.News;
+import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsExtra;
+import cn.zengmingyang.mobile.zhihudaily.data.network.RequestManger;
+import cn.zengmingyang.mobile.zhihudaily.databinding.FooterNewsListBinding;
+import cn.zengmingyang.mobile.zhihudaily.databinding.HeaderBannerBinding;
+import cn.zengmingyang.mobile.zhihudaily.databinding.ItemBannerBinding;
+import cn.zengmingyang.mobile.zhihudaily.databinding.ItemNewsBinding;
+import cn.zengmingyang.mobile.zhihudaily.widget.BindingViewHolder;
 import rx.Observable;
+import rx.Subscriber;
 import rx.subjects.PublishSubject;
 
 /**
@@ -28,7 +33,8 @@ import rx.subjects.PublishSubject;
  * 下午8:09
  */
 
-class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
+class NewsAdapter extends RecyclerView.Adapter<BindingViewHolder<ItemNewsBinding, HeaderBannerBinding,
+        FooterNewsListBinding>> {
 
     private List<News.StoriesBean> mStoriesBeen;
     private Context mContext;
@@ -40,8 +46,8 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
     private final PublishSubject<Integer> onClickSubject = PublishSubject.create();
 
-
-    NewsAdapter(List<News.StoriesBean> storiesBeen, Context context, List<News.TopStoriesBean> topStoriesBeen) {
+    NewsAdapter(List<News.StoriesBean> storiesBeen, Context context,
+                List<News.TopStoriesBean> topStoriesBeen) {
         mStoriesBeen = storiesBeen;
         mContext = context;
         mTopStoriesBeen = topStoriesBeen;
@@ -53,16 +59,33 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BindingViewHolder<ItemNewsBinding, HeaderBannerBinding, FooterNewsListBinding>
+    onCreateViewHolder(ViewGroup parent, int viewType) {
+        HeaderBannerBinding bindingHeader = DataBindingUtil
+                .inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.header_banner, parent, false);
+
+        FooterNewsListBinding bindingFooter = DataBindingUtil
+                .inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.footer_news_list, parent, false);
+
+        ItemNewsBinding binding = DataBindingUtil
+                .inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.item_news, parent, false);
+
         if (viewType == IS_HEADER) {
-            return new MyViewHolder(LayoutInflater
-                    .from(parent.getContext()).inflate(R.layout.banner_header_news_list, parent, false));
+            return new BindingViewHolder<>(
+                    bindingHeader.getRoot(), binding, bindingHeader, bindingFooter
+            );
+
         } else if (viewType == IS_FOOTER) {
-            return new MyViewHolder(LayoutInflater.
-                    from(parent.getContext()).inflate(R.layout.item_footer_news_list, parent, false));
+            return new BindingViewHolder<>(
+                    bindingFooter.getRoot(), binding, bindingHeader, bindingFooter
+            );
         } else if (viewType == IS_NORMAL) {
-            return new MyViewHolder(LayoutInflater
-                    .from(parent.getContext()).inflate(R.layout.item_news, parent, false));
+            return new BindingViewHolder<>(
+                    binding.getRoot(), binding, bindingHeader, bindingFooter
+            );
         }
         return null;
     }
@@ -79,50 +102,55 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        if (position != 0 && position != mStoriesBeen.size() + 1 && holder.getItemViewType() == IS_NORMAL) {
+    public void onBindViewHolder(BindingViewHolder<ItemNewsBinding, HeaderBannerBinding,
+            FooterNewsListBinding> holder, int position) {
+        if (position != 0 && position != mStoriesBeen.size() + 1 && holder.getItemViewType() ==
+                IS_NORMAL) {
             position -= 1;
             News.StoriesBean storiesBean = mStoriesBeen.get(position);
-            holder.mTvNewsTitle.setText(storiesBean.getTitle());
-            Glide.with(mContext).load(storiesBean.getImages().get(0)).into(holder.mIvNewsImage);
-            holder.mCardView.setOnClickListener(view -> onClickSubject.onNext(storiesBean.getId()));
-            holder.mCardView.setCardElevation(1);
+            Glide.with(mContext)
+                    .load(storiesBean.getImages().get(0))
+                    .into(holder.getBinding().ivNewsImage);
+            holder.getBinding().cvItemNews.
+                    setOnClickListener(view -> onClickSubject.onNext(storiesBean.getId()));
+            holder.getBinding().cvItemNews.setCardElevation(1);
+            holder.getBinding().setNews(storiesBean);
+            holder.getBinding().executePendingBindings();
+            RequestManger.getInstance().getNewsExtra(new Subscriber<NewsExtra>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(NewsExtra newsExtra) {
+                    holder.getBinding().setExtra(newsExtra);
+                }
+            },storiesBean.getId());
         }
         if (position == 0 && holder.getItemViewType() == IS_HEADER) {
-            holder.mNewsListBanner.setAdapter(new BannerAdapter(holder.mNewsListBanner, mTopStoriesBeen));
-            holder.mNewsListBanner.setHintView(new ColorPointHintView(mContext, Color.WHITE, Color.GRAY));
-            holder.mNewsListBanner.setOnItemClickListener(position1 ->
+            holder.getHeaderBinding().newsListBanner.setAdapter(new BannerAdapter(holder
+                    .getHeaderBinding().newsListBanner,
+                    mTopStoriesBeen));
+            holder.getHeaderBinding().newsListBanner
+                    .setHintView(new ColorPointHintView(mContext, Color.WHITE, Color.GRAY));
+            holder.getHeaderBinding().newsListBanner.setOnItemClickListener(position1 ->
                     onClickSubject.onNext(mTopStoriesBeen.get(position1).getId()));
-        }
-        if (position == mStoriesBeen.size() + 1 && holder.getItemViewType() == IS_FOOTER) {
-            holder.mNewsListFooter.setText("加载中...");
         }
     }
 
-    Observable<Integer> getPositionClicks(){
+    Observable<Integer> getPositionClicks() {
         return onClickSubject.asObservable();
     }
 
     @Override
     public int getItemCount() {
         return mStoriesBeen.size() + 2;
-    }
-
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView mTvNewsTitle;
-        ImageView mIvNewsImage;
-        RollPagerView mNewsListBanner;
-        TextView mNewsListFooter;
-        CardView mCardView;
-
-        MyViewHolder(View itemView) {
-            super(itemView);
-            mCardView = (CardView) itemView.findViewById(R.id.cv_item_girl);
-            mTvNewsTitle = (TextView) itemView.findViewById(R.id.tv_news_title);
-            mIvNewsImage = (ImageView) itemView.findViewById(R.id.iv_news_image);
-            mNewsListBanner = (RollPagerView) itemView.findViewById(R.id.news_list_banner);
-            mNewsListFooter = (TextView) itemView.findViewById(R.id.news_list_footer);
-        }
     }
 
     private class BannerAdapter extends LoopPagerAdapter {
@@ -136,15 +164,12 @@ class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
         @Override
         public View getView(ViewGroup container, int position) {
-            FrameLayout frameLayout= (FrameLayout)
-                    LayoutInflater.from(container.getContext()).
-                            inflate(R.layout.item_banner, container,false);
-            TextView textView = (TextView) frameLayout.findViewById(R.id.tv_item_banner);
-            ImageView imageView = (ImageView) frameLayout.findViewById(R.id.iv_item_banner);
-            textView.setText(mTopStoriesBeen.get(position).getTitle());
+            ItemBannerBinding binding = DataBindingUtil
+                    .inflate(LayoutInflater.from(container.getContext()), R.layout.item_banner, container, false);
             Glide.with(container.getContext()).load(mTopStoriesBeen.get(position).getImage())
-                    .centerCrop().into(imageView);
-            return frameLayout;
+                    .centerCrop().into(binding.ivItemBanner);
+            binding.setTop(mTopStoriesBeen.get(position));
+            return binding.getRoot();
         }
 
         @Override
