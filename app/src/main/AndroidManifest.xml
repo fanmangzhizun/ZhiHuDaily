@@ -29,6 +29,9 @@
             android:name=".content.ContentActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".comment.CommentActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

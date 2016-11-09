@@ -119,9 +119,36 @@ public class RequestManger {
     }
 
     public void getNewsComments(Subscriber<NewsComment> newsCommentSubscriber, int id) {
-        Observable.merge(mApiService.getNewsLongComments(id), mApiService.getNewsShortComments(id))
+       /* Observable<NewsComment> longComments = mApiService.getNewsLongComments(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        Observable<NewsComment> shortComments = mApiService.getNewsShortComments(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        Observable.merge(longComments, shortComments).subscribe(newsCommentSubscriber);*/
+        mApiService.getNewsLongComments(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(newsCommentSubscriber);
+                .subscribe(new Subscriber<NewsComment>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        newsCommentSubscriber.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(NewsComment newsComment) {
+                        Observable<NewsComment> shortComment=mApiService.getNewsShortComments(id)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread());
+                        Observable.concat(Observable.just(newsComment), shortComment)
+                                .subscribe(newsCommentSubscriber);
+                    }
+                });
     }
+
 }

@@ -45,7 +45,6 @@ abstract class ContentBehavior extends CoordinatorLayout.Behavior<View> {
         }
     }
 
-
     abstract void hide(final View view);
 
     abstract void show(final View view);

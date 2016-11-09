@@ -1,6 +1,7 @@
 package cn.zengmingyang.mobile.zhihudaily.utils;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -23,4 +24,9 @@ public class TimeUtils {
         return s.length() != 2 ? "0" + s : s;
     }
 
+    public static String timeStampToStr(long timeStamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = sdf.format(timeStamp * 1000);
+        return date;
+    }
 }

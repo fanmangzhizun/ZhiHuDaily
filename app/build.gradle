@@ -24,6 +24,9 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -50,4 +53,5 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jude:rollviewpager:1.4.5'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

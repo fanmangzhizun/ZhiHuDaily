@@ -9,7 +9,7 @@ import android.view.View;
  * 下午3:45
  */
 
-public class ToolbarBehavior extends ContentBehavior{
+public class ToolbarBehavior extends ContentBehavior {
 
     ToolbarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -18,12 +18,12 @@ public class ToolbarBehavior extends ContentBehavior{
     @Override
     void hide(View view) {
         view.animate().translationY(-view.getHeight()).setInterpolator(INTERPOLATOR).start();
-        //view.animate().alphaBy(0).setInterpolator(INTERPOLATOR).start();
+        //view.animate().alpha(0).setInterpolator(INTERPOLATOR).start();
     }
 
     @Override
     void show(View view) {
         view.animate().translationY(0).setInterpolator(INTERPOLATOR).start();
-        //view.animate().alphaBy(255).setInterpolator(INTERPOLATOR).start();
+        //view.animate().alpha(255).setInterpolator(INTERPOLATOR).start();
     }
 }

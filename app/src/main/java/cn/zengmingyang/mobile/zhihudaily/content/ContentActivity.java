@@ -1,5 +1,6 @@
 package cn.zengmingyang.mobile.zhihudaily.content;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -13,6 +14,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +22,9 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.zengmingyang.mobile.zhihudaily.R;
+import cn.zengmingyang.mobile.zhihudaily.comment.CommentActivity;
 import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsContent;
 import cn.zengmingyang.mobile.zhihudaily.data.bean.NewsExtra;
 import cn.zengmingyang.mobile.zhihudaily.news.NewsActivity;
@@ -47,8 +51,11 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
     TextView mTvContentStar;
     @BindView(R.id.tv_content_comment)
     TextView mTvContentCommit;
+    @BindView(R.id.ll_footer)
+    LinearLayout mLlFooter;
 
     private ContentContract.Presenter mPresenter;
+    private int mId;
 
     @Override
     protected void onResume() {
@@ -62,9 +69,9 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         setContentView(R.layout.activity_content);
         ButterKnife.bind(this);
         init();
-        int id = (getIntent().getIntExtra(NewsActivity.INTENT_FLAG, 0));
-        mPresenter.getContent(id);
-        mPresenter.getExtra(id);
+        mId = (getIntent().getIntExtra(NewsActivity.INTENT_FLAG, 0));
+        mPresenter.getContent(mId);
+        mPresenter.getExtra(mId);
     }
 
     @Override
@@ -129,5 +136,12 @@ public class ContentActivity extends AppCompatActivity implements ContentContrac
         });
         mWvNewsContent.loadDataWithBaseURL("file:///android_asset/",
                 newsContent.getBody(), "text/html", "utf-8", null);
+    }
+
+    @OnClick(R.id.ll_footer)
+    public void onClick() {
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra(NewsActivity.INTENT_FLAG, mId);
+        startActivity(intent);
     }
 }

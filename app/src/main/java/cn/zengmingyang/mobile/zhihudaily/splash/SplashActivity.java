@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,7 +52,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         new Handler().postDelayed(() -> {
             startActivity(new Intent(SplashActivity.this, NewsActivity.class));
             SplashActivity.this.finish();
-        }, 5000);
+        }, 6000);
     }
 
     @Override
@@ -64,15 +65,18 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
         Glide.with(this).load(startImageWrapper.getImg()).asBitmap()
                 .into(new ImageViewTarget<Bitmap>(mIvStartImage) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                mIvStartImage.setImageBitmap(resource);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mActivitySplash.setBackground(new BitmapDrawable(getResources(),
-                            FastBlurUtil.doBlur(resource, 90, false)));
-                }
-            }
-        });
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        mIvStartImage.setImageBitmap(resource);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            long time1 = System.currentTimeMillis();
+                            mActivitySplash.setBackground(new BitmapDrawable(getResources(),
+                                    FastBlurUtil.doBlur(resource, 60, false)));
+                            long time2 = System.currentTimeMillis();
+                            Log.d("time", "setResource: " + (time2 - time1));
+                        }
+                    }
+                });
         mTvSplash.setText(startImageWrapper.getText());
         startActivity();
     }
